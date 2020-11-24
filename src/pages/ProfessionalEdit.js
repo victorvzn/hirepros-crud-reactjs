@@ -6,9 +6,9 @@ import PageLoading from '../components/PageLoading'
 
 import api from '../services/api'
 
-class ProfessionalNew extends React.Component {
+class ProfessionalEdit extends React.Component {
   state = {
-    loading: false,
+    loading: true,
     error: null,
     form: {
       firstName: '',
@@ -16,6 +16,23 @@ class ProfessionalNew extends React.Component {
       email: '',
       jobTitle: '',
       twitter: '',
+    }
+  }
+
+  componentDidMount() {
+    this.fetchData()
+  }
+
+  fetchData = async e => {
+    this.setState({ loading: true, error: null })
+
+    try {
+      const data = await api.professionals.read(
+        this.props.match.params.professionalId
+      )
+      this.setState({ loading: false, form: data })
+    } catch(error) {
+      this.setState({ loading: false, error: error })
     }
   }
 
@@ -32,7 +49,8 @@ class ProfessionalNew extends React.Component {
     e.preventDefault()
     this.setState({ loading: true, error: null })
     try {
-      await api.professionals.create(this.state.form)
+      const proId = this.props.match.params.professionalId
+      await api.professionals.update(proId, this.state.form)
       this.setState({ loading: false })
       this.props.history.push('/professionals')
     } catch (error) {
@@ -50,7 +68,6 @@ class ProfessionalNew extends React.Component {
         <div className="row">
           <div className="col">
             <Professional
-              avatarUrl="https://es.gravatar.com/userimage/31287920/11eae31316b44c2adc0e37df8e274921.png"
               firstName={this.state.form.firstName || 'FIRST_NAME'}
               lastName={this.state.form.lastName || 'LAST_NAME'}
               email={this.state.form.email || 'EMAIL'}
@@ -59,7 +76,7 @@ class ProfessionalNew extends React.Component {
             />
           </div>
           <div className="col">
-            <h1 className="text-center">New professional</h1>
+            <h1 className="text-center">Edit professional</h1>
 
             <ProfessionalForm
               onChange={this.handleChange}
@@ -74,4 +91,4 @@ class ProfessionalNew extends React.Component {
   }
 }
 
-export default ProfessionalNew
+export default ProfessionalEdit

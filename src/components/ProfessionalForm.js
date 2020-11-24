@@ -1,18 +1,10 @@
 import React from 'react'
 
 class ProfessionalForm extends React.Component {
-
-  handleSubmit = e => {
-    e.preventDefault()
-    console.log('ok')
-  }
-
   render() {
     return (
-      <div>
-        <h1>New professional</h1>
-
-        <form onSubmit={this.handleSubmit}>
+      <div className="bg-white p-3 border">
+        <form onSubmit={this.props.onSubmit}>
           <div className="form-group">
             <label>First name</label>
             <input
@@ -66,6 +58,10 @@ class ProfessionalForm extends React.Component {
           <button
             type="submit"
             className="btn btn-success">Save</button>
+          
+          {this.props.error && (
+            <p className="text-danger">{this.props.error.message}</p>
+          )}
         </form>
       </div>
     )

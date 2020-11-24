@@ -9,7 +9,7 @@ function DeleteProfessionalModal(props) {
       <div className="DeleteProfessionalModal">
         <h1>Are you sure?</h1>
 
-        <p>You are about to delete this badge.</p>
+        <p>You are about to delete this professional.</p>
 
         <div className="mt-4">
           <button
